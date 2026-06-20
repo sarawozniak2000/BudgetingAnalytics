@@ -11,10 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const supabase = serverSupabase()
 
-  const [{ data: topExpenses }, { data: recurring }, { data: transactions }] = await Promise.all([
+  const [{ data: topExpenses }, { data: recurring }, { data: transactions }, { data: accounts }] = await Promise.all([
     supabase.from('top_expenses_current_month').select('*').limit(10),
     supabase.from('recurring_expenses').select('merchant,count,last_seen,typical_amount').order('typical_amount', { ascending: false }),
     supabase.from('transactions').select('date,amount,category,name,account_id').order('date', { ascending: true }),
+    supabase.from('accounts').select('account_id,name,mask,type,subtype,item_id'),
   ])
 
   const txs = transactions ?? []
@@ -54,5 +55,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     recurring: recurring ?? [],
     categoryBreakdown,
     monthlyTrend,
+    accounts: accounts ?? [],
   })
 }

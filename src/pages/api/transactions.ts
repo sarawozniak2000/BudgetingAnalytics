@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.json({ success: true })
   }
 
-  const { search, category, limit = '100', offset = '0' } = req.query as Record<string, string>
+  const { search, category, accounts, limit = '100', offset = '0' } = req.query as Record<string, string>
 
   let query = supabase
     .from('transactions')
@@ -31,6 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (search) query = query.ilike('name', `%${search}%`)
   if (category) query = query.eq('category', category)
+  if (accounts) query = query.in('account_id', accounts.split(','))
 
   const { data, count, error } = await query
   if (error) return res.status(500).json({ error: error.message })
