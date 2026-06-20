@@ -20,6 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.json({ link_token: response.data.link_token })
   } catch (err: any) {
     console.error('create-link-token error:', err?.response?.data ?? err)
-    res.status(500).json({ error: 'Failed to create link token', detail: err?.response?.data ?? err?.message })
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+    res.status(500).json({ error: 'Failed to create link token', redirect_uri_sent: baseUrl ? `${baseUrl}/onboarding` : null, detail: err?.response?.data ?? err?.message })
   }
 }
