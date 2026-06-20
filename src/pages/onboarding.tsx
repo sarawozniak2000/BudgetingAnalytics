@@ -103,6 +103,7 @@ export default function Onboarding() {
             <p style={styles.note}>
               Nightly sync is scheduled — your transactions will appear on the dashboard after the first run.
             </p>
+            <a href="/dashboard" style={styles.dashLink}>Go to dashboard →</a>
           </div>
         ) : (
           <>
@@ -173,4 +174,5 @@ const styles: Record<string, React.CSSProperties> = {
   mask: { color: '#999', fontFamily: 'monospace' },
   note: { fontSize: 13, color: '#888', marginTop: 16 },
   error: { color: '#dc2626', marginTop: 12, fontSize: 14 },
+  dashLink: { display: 'inline-block', marginTop: 16, color: '#0070f3', fontWeight: 600, textDecoration: 'none', fontSize: 14 },
 }
